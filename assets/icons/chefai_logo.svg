@@ -1,0 +1,78 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Orange Circle Background -->
+  <circle cx="50" cy="50" r="50" fill="#f97316"/>
+
+  <!-- Chef Hat Poof -->
+  <path
+    d="M33 38 C22 38 25 22 38 25 C42 12 58 12 62 25 C75 22 78 38 67 38 Z"
+    fill="#f97316"
+    stroke="white"
+    stroke-width="4"
+    stroke-linejoin="round"
+  />
+
+  <!-- Chef Hat Brim -->
+  <rect
+    x="33"
+    y="38"
+    width="34"
+    height="6"
+    fill="#f97316"
+    stroke="white"
+    stroke-width="4"
+    stroke-linecap="round"
+  />
+
+  <!-- Robot Head -->
+  <rect
+    x="25"
+    y="44"
+    width="50"
+    height="40"
+    rx="16"
+    fill="#f97316"
+    stroke="white"
+    stroke-width="4"
+  />
+
+  <!-- Face -->
+  <rect
+    x="32"
+    y="52"
+    width="36"
+    height="26"
+    rx="10"
+    fill="#f97316"
+    stroke="white"
+    stroke-width="4"
+  />
+
+  <!-- Eyes -->
+  <circle cx="42" cy="62" r="4" fill="#f97316" stroke="white" stroke-width="4"/>
+  <circle cx="58" cy="62" r="4" fill="#f97316" stroke="white" stroke-width="4"/>
+
+  <!-- Smile -->
+  <path d="M45 72 Q50 78 55 72" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Left Ear -->
+  <path
+    d="M25 58 C18 58 18 70 25 70"
+    fill="none"
+    stroke="white"
+    stroke-width="4"
+    stroke-linecap="round"
+  />
+
+  <!-- Right Antenna -->
+  <path
+    d="M75 64 L84 64 L84 45"
+    fill="none"
+    stroke="white"
+    stroke-width="4"
+    stroke-linejoin="round"
+  />
+
+  <circle cx="84" cy="45" r="3" fill="white"/>
+
+</svg>
