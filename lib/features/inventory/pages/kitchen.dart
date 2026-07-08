@@ -1,13 +1,11 @@
+import 'package:chef_ai_mobile/core/theme/app_colors.dart';
 import 'package:chef_ai_mobile/features/inventory/widgets/available_item.dart';
 import 'package:chef_ai_mobile/features/inventory/widgets/available_item_category.dart';
 import 'package:chef_ai_mobile/features/inventory/widgets/inventory_stats.dart';
+import 'package:chef_ai_mobile/providers/theme_provider.dart';
 import 'package:chef_ai_mobile/shared/mock_data/inventory.dart';
-import 'package:chef_ai_mobile/shared/models/inventory_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'package:chef_ai_mobile/core/theme/app_colors.dart';
-import 'package:chef_ai_mobile/providers/theme_provider.dart';
 
 class KitchenInventoryScreen extends ConsumerStatefulWidget {
   const KitchenInventoryScreen({super.key});
@@ -20,8 +18,16 @@ class KitchenInventoryScreen extends ConsumerStatefulWidget {
 class _KitchenInventoryScreenState
     extends ConsumerState<KitchenInventoryScreen> {
   int selectedCategoryIndex = 0;
+
   final ScrollController _categoryController = ScrollController();
   final ScrollController _productController = ScrollController();
+
+  @override
+  void dispose() {
+    _categoryController.dispose();
+    _productController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,9 +41,7 @@ class _KitchenInventoryScreenState
           child: Column(
             children: [
               _header(),
-
               const SizedBox(height: 10),
-
               InventoryStats(
                 stats: const [
                   InventoryStatItem(
@@ -57,17 +61,11 @@ class _KitchenInventoryScreenState
                   ),
                 ],
               ),
-
               const SizedBox(height: 10),
-
               _search(),
-
               const SizedBox(height: 8),
-
               _filters(),
-
               const SizedBox(height: 10),
-
               Expanded(
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -85,23 +83,23 @@ class _KitchenInventoryScreenState
                         },
                       ),
                     ),
-
                     const SizedBox(width: 10),
-
                     Expanded(
                       child: GridView.builder(
                         controller: _productController,
-                        physics: const BouncingScrollPhysics(),
-                        padding: const EdgeInsets.only(bottom: 20),
+                        physics: const BouncingScrollPhysics(
+                          parent: AlwaysScrollableScrollPhysics(),
+                        ),
+                        padding: const EdgeInsets.only(bottom: 24),
                         itemCount: InventoryMockData.items.length,
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              childAspectRatio: .70,
-                              crossAxisSpacing: 10,
-                              mainAxisSpacing: 10,
-                            ),
-                        itemBuilder: (_, index) {
+                          crossAxisCount: 2,
+                          childAspectRatio: 0.68,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
+                        ),
+                        itemBuilder: (context, index) {
                           final item = InventoryMockData.items[index];
 
                           return AvailableItemCard(
@@ -129,36 +127,45 @@ class _KitchenInventoryScreenState
         CircleAvatar(
           radius: 16,
           backgroundColor: Colors.white10,
-          child: const Icon(Icons.arrow_back_ios_new, size: 14),
+          child: const Icon(
+            Icons.arrow_back_ios_new,
+            size: 14,
+          ),
         ),
-
         const SizedBox(width: 10),
-
         const Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 "Kitchen Inventory",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w800,
+                ),
               ),
               Text(
                 "Manage your stock, track expiry and organize your pantry",
-                style: TextStyle(fontSize: 8, color: Colors.grey),
+                style: TextStyle(
+                  fontSize: 8,
+                  color: Colors.grey,
+                ),
               ),
             ],
           ),
         ),
-
-        ElevatedButton(
-          onPressed: () {},
-          style: ElevatedButton.styleFrom(
+        FilledButton(
+          style: FilledButton.styleFrom(
             backgroundColor: Colors.orange,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
             ),
           ),
-          child: const Text("+ Add Item", style: TextStyle(fontSize: 10)),
+          onPressed: () {},
+          child: const Text(
+            "+ Add Item",
+            style: TextStyle(fontSize: 10),
+          ),
         ),
       ],
     );
@@ -166,17 +173,21 @@ class _KitchenInventoryScreenState
 
   Widget _search() {
     return Container(
-      height: 32,
+      height: 36,
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey),
         borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.grey),
       ),
       child: const TextField(
+        textAlignVertical: TextAlignVertical.center,
         decoration: InputDecoration(
           hintText: "Search pantry...",
-          prefixIcon: Icon(Icons.search, size: 15),
+          prefixIcon: Icon(
+            Icons.search,
+            size: 18,
+          ),
           border: InputBorder.none,
-          contentPadding: EdgeInsets.only(bottom: 10),
+          isDense: true,
         ),
       ),
     );
@@ -195,38 +206,18 @@ class _KitchenInventoryScreenState
   Widget _chip(String text, bool selected) {
     return Container(
       margin: const EdgeInsets.only(right: 6),
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 10,
+        vertical: 5,
+      ),
       decoration: BoxDecoration(
         color: selected ? Colors.orange : Colors.white10,
         borderRadius: BorderRadius.circular(20),
       ),
-      child: Text(text, style: const TextStyle(fontSize: 8)),
-    );
-  }
-
-  Widget _products() {
-    final List<InventoryItem> products = InventoryMockData.items;
-
-    return GridView.builder(
-      physics: const BouncingScrollPhysics(),
-      padding: const EdgeInsets.only(bottom: 24),
-      itemCount: products.length,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        childAspectRatio: 0.68,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
+      child: Text(
+        text,
+        style: const TextStyle(fontSize: 8),
       ),
-      itemBuilder: (_, index) {
-        final item = products[index];
-
-        return AvailableItemCard(
-          itemName: item.name,
-          imageUrl: item.imageUrl,
-          expirationStatus: item.expirationStatus,
-          quantity: item.quantity,
-        );
-      },
     );
   }
 }

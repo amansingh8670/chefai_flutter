@@ -1,4 +1,5 @@
 import 'package:chef_ai_mobile/core/theme/app_colors.dart';
+import 'package:chef_ai_mobile/core/util/app_scroll_behavior.dart';
 import 'package:chef_ai_mobile/features/authentication/pages/login_page.dart';
 import 'package:chef_ai_mobile/features/authentication/pages/signup_page.dart';
 import 'package:chef_ai_mobile/features/dashboard/pages/dashboard_page.dart';
@@ -24,6 +25,7 @@ class MyApp extends ConsumerWidget {
 
     return MaterialApp(
       title: 'Flutter Demo',
+      scrollBehavior: AppScrollBehavior(),
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
