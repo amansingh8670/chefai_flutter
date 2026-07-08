@@ -27,7 +27,7 @@ class MyApp extends ConsumerWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: currentTheme,
-      home: const SignUpScreen(),
+      home: const LoginScreen(),
     );
   }
 }
