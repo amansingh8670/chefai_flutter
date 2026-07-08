@@ -2,6 +2,7 @@ import 'package:chef_ai_mobile/core/theme/app_colors.dart';
 import 'package:chef_ai_mobile/features/authentication/pages/login_page.dart';
 import 'package:chef_ai_mobile/features/authentication/pages/signup_page.dart';
 import 'package:chef_ai_mobile/features/dashboard/pages/dashboard_page.dart';
+import 'package:chef_ai_mobile/features/inventory/pages/kitchen.dart';
 import 'package:chef_ai_mobile/features/landing/pages/landing_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -27,7 +28,7 @@ class MyApp extends ConsumerWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: currentTheme,
-      home: const LoginScreen(),
+      home: const KitchenInventoryScreen(),
     );
   }
 }
