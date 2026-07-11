@@ -1,3 +1,4 @@
+import 'package:chef_ai_mobile/shared/widgets/inputs/text_field.dart';
 import 'package:flutter/material.dart';
 
 class ChatInput extends StatefulWidget {
@@ -17,9 +18,10 @@ class _ChatInputState extends State<ChatInput> {
       child: Row(
         children: <Widget>[
           Expanded(
-            child: TextField(
+             child: AppTextField(
+              label: "Item Name",
+              hint: "e.g. Organic Brown Eggs",
               controller: _controller,
-              decoration: InputDecoration(labelText: 'Type a message...'),
             ),
           ),
           IconButton(
