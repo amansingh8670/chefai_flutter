@@ -3,8 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:chef_ai_mobile/core/theme/app_colors.dart';
 
-import 'package:chef_ai_mobile/shared/widgets/inputs/app_email_field.dart';
-import 'package:chef_ai_mobile/shared/widgets/inputs/app_password_field.dart';
+import 'package:chef_ai_mobile/shared/widgets/inputs/email_field.dart';
+import 'package:chef_ai_mobile/shared/widgets/inputs/password_field.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
