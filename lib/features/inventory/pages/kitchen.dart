@@ -4,6 +4,7 @@ import 'package:chef_ai_mobile/features/inventory/widgets/available_item_categor
 import 'package:chef_ai_mobile/features/inventory/widgets/inventory_stats.dart';
 import 'package:chef_ai_mobile/providers/theme_provider.dart';
 import 'package:chef_ai_mobile/shared/mock_data/inventory.dart';
+import 'package:chef_ai_mobile/shared/widgets/inputs/text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -19,6 +20,7 @@ class _KitchenInventoryScreenState
     extends ConsumerState<KitchenInventoryScreen> {
   int selectedCategoryIndex = 0;
 
+  final _controller = TextEditingController();
   final ScrollController _categoryController = ScrollController();
   final ScrollController _productController = ScrollController();
 
@@ -94,11 +96,11 @@ class _KitchenInventoryScreenState
                         itemCount: InventoryMockData.items.length,
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          childAspectRatio: 0.68,
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 10,
-                        ),
+                              crossAxisCount: 2,
+                              childAspectRatio: 0.68,
+                              crossAxisSpacing: 10,
+                              mainAxisSpacing: 10,
+                            ),
                         itemBuilder: (context, index) {
                           final item = InventoryMockData.items[index];
 
@@ -127,10 +129,7 @@ class _KitchenInventoryScreenState
         CircleAvatar(
           radius: 16,
           backgroundColor: Colors.white10,
-          child: const Icon(
-            Icons.arrow_back_ios_new,
-            size: 14,
-          ),
+          child: const Icon(Icons.arrow_back_ios_new, size: 14),
         ),
         const SizedBox(width: 10),
         const Expanded(
@@ -139,17 +138,11 @@ class _KitchenInventoryScreenState
             children: [
               Text(
                 "Kitchen Inventory",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w800,
-                ),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
               ),
               Text(
                 "Manage your stock, track expiry and organize your pantry",
-                style: TextStyle(
-                  fontSize: 8,
-                  color: Colors.grey,
-                ),
+                style: TextStyle(fontSize: 8, color: Colors.grey),
               ),
             ],
           ),
@@ -162,10 +155,7 @@ class _KitchenInventoryScreenState
             ),
           ),
           onPressed: () {},
-          child: const Text(
-            "+ Add Item",
-            style: TextStyle(fontSize: 10),
-          ),
+          child: const Text("+ Add Item", style: TextStyle(fontSize: 10)),
         ),
       ],
     );
@@ -178,17 +168,20 @@ class _KitchenInventoryScreenState
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: Colors.grey),
       ),
-      child: const TextField(
-        textAlignVertical: TextAlignVertical.center,
-        decoration: InputDecoration(
-          hintText: "Search pantry...",
-          prefixIcon: Icon(
-            Icons.search,
-            size: 18,
-          ),
-          border: InputBorder.none,
-          isDense: true,
-        ),
+      child: AppTextField(
+        label: "Search",
+        hint: "Search pantry...",
+        controller: _controller,
+        textCapitalization: TextCapitalization.none,
+        textInputAction: TextInputAction.search,
+        keyboardType: TextInputType.text,
+        prefixIcon: const Icon(Icons.search, size: 18),
+        onSubmitted: (value) {
+          // TODO: Perform search
+        },
+        onChanged: (value) {
+          // Optional live search
+        },
       ),
     );
   }
@@ -206,18 +199,12 @@ class _KitchenInventoryScreenState
   Widget _chip(String text, bool selected) {
     return Container(
       margin: const EdgeInsets.only(right: 6),
-      padding: const EdgeInsets.symmetric(
-        horizontal: 10,
-        vertical: 5,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
         color: selected ? Colors.orange : Colors.white10,
         borderRadius: BorderRadius.circular(20),
       ),
-      child: Text(
-        text,
-        style: const TextStyle(fontSize: 8),
-      ),
+      child: Text(text, style: const TextStyle(fontSize: 8)),
     );
   }
 }
