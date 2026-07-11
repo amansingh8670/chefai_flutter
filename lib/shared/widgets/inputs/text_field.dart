@@ -12,6 +12,7 @@ class AppTextField extends ConsumerStatefulWidget {
   final TextEditingController controller;
   final FocusNode? focusNode;
 
+final bool showLabel;
   final TextInputType keyboardType;
   final TextInputAction textInputAction;
 
@@ -46,6 +47,7 @@ class AppTextField extends ConsumerStatefulWidget {
 
     this.focusNode,
 
+    this.showLabel = true,
     this.keyboardType = TextInputType.text,
     this.textInputAction = TextInputAction.next,
 
@@ -113,6 +115,7 @@ class _AppTextFieldState extends ConsumerState<AppTextField> {
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
         Text(
           widget.label.toUpperCase(),
