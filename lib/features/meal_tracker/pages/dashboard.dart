@@ -17,33 +17,43 @@ class _MealTrackerDashboardState extends ConsumerState<MealTrackerDashboard> {
   Widget build(BuildContext context) {
     // final themeMode = Provider.of<ThemeProvider>(context, listen: true).theme;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Header
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Text('Smart Meals', style: AppTheme.darkTheme.textTheme.headlineSmall),
-        ),
+    return ListView.builder(
+      // crossAxisAlignment: CrossAxisAlignment.start,
+      padding: const EdgeInsets.all(8),
+    // itemCount: entries.length,
+    itemBuilder: (BuildContext context, int index) {
+      return Container(
+        height: 50,
+        // color: Colors.amber[colorCodes[index]],
+        // child: Center(child: Text('Entry ${entries[index]}')),
+      );
+    }
+    // separatorBuilder: (BuildContext context, int index) => const Divider(),
+      // children: [
+      //   // Header
+      //   Container(
+      //     padding: const EdgeInsets.symmetric(horizontal: 20),
+      //     child: Text('Smart Meals', style: AppTheme.darkTheme.textTheme.headlineSmall),
+      //   ),
 
-        // Recommended meals
-        ListView.builder(
-          shrinkWrap: true,
-          itemCount: 5, // Placeholder data
-          itemBuilder: (context, index) {
-            return RecommendedMealItem(
-              imagePath: 'assets/images/meal_placeholder.png', // Placeholder data
-              isVeg: true, // Placeholder data
-              title: 'Egg Noodles Maggi Bowl', // Placeholder data
-              rating: 4.5, // Placeholder data
-              kcal: 380, // Placeholder data
-              protein: 12, // Placeholder data
-              description: 'A delicious bowl of egg noodles with maggi', // Placeholder data
-              ingredientsToBuy: ['Egg Noodles', 'Maggi'], // Placeholder data
-            );
-          },
-        ),
-      ],
+      //   // Recommended meals
+      //   ListView.builder(
+      //     shrinkWrap: true,
+      //     itemCount: 5, // Placeholder data
+      //     itemBuilder: (context, index) {
+      //       return RecommendedMealItem(
+      //         imagePath: 'assets/images/meal_placeholder.png', // Placeholder data
+      //         isVeg: true, // Placeholder data
+      //         title: 'Egg Noodles Maggi Bowl', // Placeholder data
+      //         rating: 4.5, // Placeholder data
+      //         kcal: 380, // Placeholder data
+      //         protein: 12, // Placeholder data
+      //         description: 'A delicious bowl of egg noodles with maggi', // Placeholder data
+      //         ingredientsToBuy: ['Egg Noodles', 'Maggi'], // Placeholder data
+      //       );
+      //     },
+      //   ),
+      // ],
     );
   }
 }

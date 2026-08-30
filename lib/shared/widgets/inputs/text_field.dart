@@ -12,7 +12,7 @@ class AppTextField extends ConsumerStatefulWidget {
   final TextEditingController controller;
   final FocusNode? focusNode;
 
-final bool showLabel;
+  final bool showLabel;
   final TextInputType keyboardType;
   final TextInputAction textInputAction;
 
@@ -147,8 +147,7 @@ class _AppTextFieldState extends ConsumerState<AppTextField> {
             boxShadow: isFocused
                 ? [
                     BoxShadow(
-                      color: AppColors.primaryOrange
-                          .withValues(alpha: .12),
+                      color: AppColors.primaryOrange.withValues(alpha: .12),
                       blurRadius: 12,
                       spreadRadius: 1,
                     ),
