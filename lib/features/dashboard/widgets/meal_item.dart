@@ -54,7 +54,7 @@ class MealItem extends ConsumerWidget {
             decoration: BoxDecoration(
               color: AppColors.getAccentTeal(
                 themeMode,
-              ).withValues(alpha: 0.12),
+              ).withOpacity( 0.12),
 
               borderRadius: BorderRadius.circular(5),
             ),

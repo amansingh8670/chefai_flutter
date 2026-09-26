@@ -73,8 +73,8 @@ class AppBottomNav extends ConsumerWidget {
                     ),
 
                     _navItem(
-                      icon: Icons.shopping_cart_outlined,
-                      label: "Cart",
+                      icon: Icons.camera_alt_outlined,
+                      label: "Scan",
                       index: 1,
                       themeMode: themeMode,
                     ),
@@ -83,15 +83,15 @@ class AppBottomNav extends ConsumerWidget {
                     const SizedBox(width: 56),
 
                     _navItem(
-                      icon: Icons.restaurant_menu_rounded,
-                      label: "Meals",
+                      icon: Icons.bolt,
+                      label: "Quick",
                       index: 3,
                       themeMode: themeMode,
                     ),
 
                     _navItem(
-                      icon: Icons.kitchen_outlined,
-                      label: "Pantry",
+                      icon: Icons.shopping_cart_outlined,
+                      label: "Cart",
                       index: 4,
                       themeMode: themeMode,
                     ),
@@ -127,7 +127,7 @@ class AppBottomNav extends ConsumerWidget {
                       BoxShadow(
                         color: AppColors.getPrimaryOrange(
                           themeMode,
-                        ).withValues(alpha: 0.30),
+                        ).withOpacity( 0.30),
 
                         blurRadius: 14,
                         offset: const Offset(0, 6),

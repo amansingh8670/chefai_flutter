@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:chef_ai_mobile/features/dashboard/pages/dashboard_page.dart';
+import 'package:chef_ai_mobile/features/authentication/pages/signup_page.dart';
 
 import 'package:chef_ai_mobile/core/theme/app_colors.dart';
 
@@ -28,11 +31,40 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  void _login() {
+  bool _isLoading = false;
+
+  Future<void> _login() async {
     if (!_formKey.currentState!.validate()) return;
 
-    // TODO:
-    // Login API
+    setState(() => _isLoading = true);
+    try {
+      await Supabase.instance.client.auth.signInWithPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text,
+      );
+      
+      if (mounted) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (_) => const DashboardPage()),
+        );
+      }
+    } on AuthException catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(e.message), backgroundColor: Colors.red),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('An unexpected error occurred'), backgroundColor: Colors.red),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
   }
 
   @override
@@ -135,7 +167,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 56,
 
                     child: ElevatedButton(
-                      onPressed: _login,
+                      onPressed: _isLoading ? null : _login,
 
                       style: ElevatedButton.styleFrom(
                         backgroundColor:
@@ -149,7 +181,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
 
-                      child: const Text(
+                      child: _isLoading 
+                        ? const SizedBox(
+                            height: 24,
+                            width: 24,
+                            child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
+                          )
+                        : const Text(
                         "SIGN IN",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
@@ -165,7 +203,20 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 56,
 
                     child: OutlinedButton.icon(
-                      onPressed: () {},
+                      onPressed: () async {
+                        try {
+                          await Supabase.instance.client.auth.signInWithOAuth(
+                            OAuthProvider.google,
+                            redirectTo: 'http://localhost:8080',
+                          );
+                        } catch (e) {
+                          if (mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Google Sign-In Error: $e'), backgroundColor: Colors.red),
+                            );
+                          }
+                        }
+                      },
 
                       icon: const Icon(Icons.g_mobiledata),
 
@@ -202,7 +253,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
                       TextButton(
                         onPressed: () {
-                          // Navigate to Sign Up
+                          Navigator.of(context).push(
+                            MaterialPageRoute(builder: (_) => const SignupPage()),
+                          );
                         },
 
                         child: const Text(

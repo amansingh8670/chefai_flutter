@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'app_colors.dart';
 
 class AppTheme {
+
   // =========================================================
   // LIGHT THEME
   // =========================================================
@@ -19,12 +21,12 @@ class AppTheme {
       secondary: AppColors.accentTeal,
       error: AppColors.dangerLight,
       surface: AppColors.surfaceLight,
-      onSurface: AppColors.textPrimaryLight,
     ),
 
     // =====================================================
     // APP BAR
     // =====================================================
+
     appBarTheme: const AppBarTheme(
       centerTitle: true,
       elevation: 0,
@@ -35,21 +37,28 @@ class AppTheme {
     // =====================================================
     // ICONS
     // =====================================================
-    iconTheme: const IconThemeData(color: AppColors.textPrimaryLight),
+
+    iconTheme: const IconThemeData(
+      color: AppColors.textPrimaryLight,
+    ),
 
     // =====================================================
     // CARD THEME
     // =====================================================
-    cardTheme: CardThemeData(
+
+    cardTheme: CardTheme(
       color: AppColors.cardBgLight,
       elevation: 0,
 
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
     ),
 
     // =====================================================
     // DIVIDERS
     // =====================================================
+
     dividerTheme: const DividerThemeData(
       color: AppColors.dividerLight,
       thickness: 1,
@@ -58,43 +67,57 @@ class AppTheme {
     // =====================================================
     // PAGE TRANSITIONS
     // =====================================================
+
     pageTransitionsTheme: const PageTransitionsTheme(
       builders: {
-        TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
+        TargetPlatform.android:
+            FadeUpwardsPageTransitionsBuilder(),
 
-        TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+        TargetPlatform.iOS:
+            CupertinoPageTransitionsBuilder(),
       },
     ),
 
     // =====================================================
     // ELEVATED BUTTONS
     // =====================================================
+
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.primaryOrange,
 
         foregroundColor: Colors.white,
 
-        elevation: 3,
+        elevation: 0,
 
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 14,
+        ),
 
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
       ),
     ),
 
     // =====================================================
     // TEXT THEME
     // =====================================================
-    textTheme: const TextTheme(
-      headlineMedium: TextStyle(
-        color: AppColors.textPrimaryLight,
-        fontWeight: FontWeight.bold,
+
+    textTheme: GoogleFonts.interTextTheme(
+      const TextTheme(
+        headlineMedium: TextStyle(
+          color: AppColors.textPrimaryLight,
+          fontWeight: FontWeight.bold,
+        ),
+        bodyLarge: TextStyle(
+          color: AppColors.textPrimaryLight,
+        ),
+        bodyMedium: TextStyle(
+          color: AppColors.textSecondaryLight,
+        ),
       ),
-
-      bodyLarge: TextStyle(color: AppColors.textPrimaryLight),
-
-      bodyMedium: TextStyle(color: AppColors.textSecondaryLight),
     ),
   );
 
@@ -114,12 +137,12 @@ class AppTheme {
       secondary: AppColors.accentTeal,
       error: AppColors.dangerDark,
       surface: AppColors.surfaceDark,
-      onSurface: AppColors.textPrimaryDark,
     ),
 
     // =====================================================
     // APP BAR
     // =====================================================
+
     appBarTheme: const AppBarTheme(
       centerTitle: true,
       elevation: 0,
@@ -130,21 +153,28 @@ class AppTheme {
     // =====================================================
     // ICONS
     // =====================================================
-    iconTheme: const IconThemeData(color: AppColors.textPrimaryDark),
+
+    iconTheme: const IconThemeData(
+      color: AppColors.textPrimaryDark,
+    ),
 
     // =====================================================
     // CARD THEME
     // =====================================================
-    cardTheme: CardThemeData(
+
+    cardTheme: CardTheme(
       color: AppColors.cardBgDark,
       elevation: 0,
 
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
     ),
 
     // =====================================================
     // DIVIDERS
     // =====================================================
+
     dividerTheme: const DividerThemeData(
       color: AppColors.dividerDark,
       thickness: 1,
@@ -153,43 +183,57 @@ class AppTheme {
     // =====================================================
     // PAGE TRANSITIONS
     // =====================================================
+
     pageTransitionsTheme: const PageTransitionsTheme(
       builders: {
-        TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
+        TargetPlatform.android:
+            FadeUpwardsPageTransitionsBuilder(),
 
-        TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+        TargetPlatform.iOS:
+            CupertinoPageTransitionsBuilder(),
       },
     ),
 
     // =====================================================
     // ELEVATED BUTTONS
     // =====================================================
+
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.primaryOrange,
 
         foregroundColor: Colors.white,
 
-        elevation: 3,
+        elevation: 0,
 
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 14,
+        ),
 
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
       ),
     ),
 
     // =====================================================
     // TEXT THEME
     // =====================================================
-    textTheme: const TextTheme(
-      headlineMedium: TextStyle(
-        color: AppColors.textPrimaryDark,
-        fontWeight: FontWeight.bold,
+
+    textTheme: GoogleFonts.interTextTheme(
+      const TextTheme(
+        headlineMedium: TextStyle(
+          color: AppColors.textPrimaryDark,
+          fontWeight: FontWeight.bold,
+        ),
+        bodyLarge: TextStyle(
+          color: AppColors.textPrimaryDark,
+        ),
+        bodyMedium: TextStyle(
+          color: AppColors.textSecondaryDark,
+        ),
       ),
-
-      bodyLarge: TextStyle(color: AppColors.textPrimaryDark),
-
-      bodyMedium: TextStyle(color: AppColors.textSecondaryDark),
     ),
   );
 }

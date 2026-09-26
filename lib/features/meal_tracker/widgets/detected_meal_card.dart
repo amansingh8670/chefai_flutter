@@ -41,7 +41,7 @@ class DetectedMealCard extends StatelessWidget {
         color: const Color(0xff1C1E26),
         borderRadius: BorderRadius.circular(18),
         border: Border.all(
-          color: const Color(0xffFF8A24).withValues(alpha: .25),
+          color: const Color(0xffFF8A24).withOpacity( .25),
         ),
       ),
       child: Column(
@@ -88,7 +88,7 @@ class DetectedMealCard extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 10,
                         fontWeight: FontWeight.w700,
-                        color: Colors.white.withValues(alpha: .55),
+                        color: Colors.white.withOpacity( .55),
                         letterSpacing: .5,
                       ),
                     ),
@@ -102,7 +102,7 @@ class DetectedMealCard extends StatelessWidget {
                   padding: const EdgeInsets.all(4),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.black.withValues(alpha: .20),
+                    color: Colors.black.withOpacity( .20),
                   ),
                   child: const Icon(
                     Icons.close,
@@ -168,7 +168,7 @@ class DetectedMealCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(
-                    color: Colors.white.withValues(alpha: .12),
+                    color: Colors.white.withOpacity( .12),
                   ),
                 ),
                 child: Row(
@@ -215,7 +215,7 @@ class DetectedMealCard extends StatelessWidget {
                 style: OutlinedButton.styleFrom(
                   minimumSize: const Size(70, 34),
                   side: BorderSide(
-                    color: Colors.white.withValues(alpha: .15),
+                    color: Colors.white.withOpacity( .15),
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
@@ -248,7 +248,7 @@ class _NutritionChip extends StatelessWidget {
         vertical: 4,
       ),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: .15),
+        color: color.withOpacity( .15),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Text(

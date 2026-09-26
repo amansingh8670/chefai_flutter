@@ -1,1 +1,0 @@
-enum ButtonIconPosition { left, right }

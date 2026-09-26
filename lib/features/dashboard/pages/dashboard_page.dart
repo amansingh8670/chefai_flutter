@@ -6,6 +6,9 @@ import '../../../shared/widgets/app_top_bar.dart';
 import '../../../shared/widgets/app_bottom_nav.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../providers/theme_provider.dart';
+import '../../checkout/pages/smart_cart.dart';
+import '../../meal_tracker/pages/log_meal.dart';
+import '../../chatbot/pages/chefai_chatbot.dart';
 
 class DashboardPage extends ConsumerStatefulWidget {
   const DashboardPage({super.key});
@@ -26,16 +29,19 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
       body: Column(
         children: [
           // Top Bar
-          SafeArea(
-            bottom: false,
-            child: const AppTopBar(),
-          ),
+          if (_selectedIndex != 2)
+            SafeArea(
+              bottom: false,
+              child: const AppTopBar(),
+            ),
           
           // Content
           Expanded(
             child: SafeArea(
               top: false,
-              child: DashboardBody(),
+              child: _selectedIndex == 2 
+                ? ChatScreen(onBack: () => setState(() => _selectedIndex = 0)) 
+                : const DashboardBody(),
             ),
           ),
         ],
@@ -43,9 +49,19 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
       bottomNavigationBar: AppBottomNav(
         selectedIndex: _selectedIndex,
         onTap: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
+          if (index == 0) {
+            // Already on home
+            return;
+          }
+          
+          if (index == 1) {
+            Navigator.push(context, MaterialPageRoute(builder: (_) => const LogMealScreen()));
+          } else if (index == 4) {
+            Navigator.push(context, MaterialPageRoute(builder: (_) => const SmartCartScreen()));
+          } else {
+             // For Quick (index 3) and Center Button (index 2)
+             setState(() { _selectedIndex = index; });
+          }
         },
       ),
     );

@@ -21,13 +21,13 @@ class ContentCard extends ConsumerWidget {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.15),
+            color: Colors.black.withOpacity( 0.15),
             blurRadius: 18,
             offset: const Offset(0, 6),
           ),
         ],
       ),
-      child: Padding(padding: const EdgeInsets.all(16), child: child),
+      child: Padding(padding: const EdgeInsets.all(12), child: child),
     );
   }
 }
