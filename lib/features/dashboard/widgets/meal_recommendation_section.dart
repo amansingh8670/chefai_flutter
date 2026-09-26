@@ -1,9 +1,11 @@
 import 'package:chef_ai_mobile/features/dashboard/widgets/recommended_meal_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shimmer/shimmer.dart';
 
 import 'package:chef_ai_mobile/core/theme/app_colors.dart';
 import 'package:chef_ai_mobile/providers/theme_provider.dart';
+import 'package:chef_ai_mobile/providers/recommendation_provider.dart';
 
 class MealRecommendationSection extends ConsumerStatefulWidget {
   const MealRecommendationSection({super.key});
@@ -20,6 +22,7 @@ class _MealRecommendationSectionState
   @override
   Widget build(BuildContext context) {
     final themeMode = ref.watch(themeProvider);
+    final recommendationsAsync = ref.watch(recommendationsProvider);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,75 +58,59 @@ class _MealRecommendationSectionState
         // =====================================================
         // OUTER CARD
         // =====================================================
-        Expanded(
-          child: Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(10),
-
-            decoration: BoxDecoration(
-              color: AppColors.getCardBg(themeMode),
-              borderRadius: BorderRadius.circular(24),
-
-              border: Border.all(
-                color: AppColors.getDivider(themeMode),
-                width: 0.8,
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: AppColors.getCardBg(themeMode),
+            borderRadius: BorderRadius.circular(24),
+            border: Border.all(
+              color: AppColors.getDivider(themeMode),
+              width: 0.8,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.getShadow(themeMode),
+                blurRadius: 12,
+                offset: const Offset(0, 4),
               ),
-
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.getShadow(themeMode),
-                  blurRadius: 12,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
-
-            child: Column(
-              children: [
-                // =====================================================
-                // CUSTOM TAB BAR
-                // =====================================================
-                Container(
-                  height: 34,
-                  padding: const EdgeInsets.all(2),
-
-                  decoration: BoxDecoration(
-                    color: Colors.black.withValues(alpha: 0.16),
-                    borderRadius: BorderRadius.circular(10),
-
-                    border: Border.all(
-                      color: AppColors.getDivider(themeMode),
-                      width: 0.4,
-                    ),
-                  ),
-
-                  child: Row(
-                    children: [
-                      _tabItem("BREAKFAST", "breakfast", themeMode),
-
-                      _tabItem("LUNCH", "lunch", themeMode),
-
-                      _tabItem("SNACKS", "snacks", themeMode),
-
-                      _tabItem("DINNER", "dinner", themeMode),
-                    ],
+            ],
+          ),
+          child: Column(
+            children: [
+              // =====================================================
+              // CUSTOM TAB BAR
+              // =====================================================
+              Container(
+                height: 34,
+                padding: const EdgeInsets.all(2),
+                decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.16),
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                    color: AppColors.getDivider(themeMode),
+                    width: 0.4,
                   ),
                 ),
-
-                const SizedBox(height: 10),
-
-                // =====================================================
-                // CONTENT
-                // =====================================================
-                Expanded(
-                  child: SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
-
-                    child: _buildMealContent(),
-                  ),
+                child: Row(
+                  children: [
+                    _tabItem("BREAKFAST", "breakfast", themeMode),
+                    _tabItem("LUNCH", "lunch", themeMode),
+                    _tabItem("SNACKS", "snacks", themeMode),
+                    _tabItem("DINNER", "dinner", themeMode),
+                  ],
                 ),
-              ],
-            ),
+              ),
+              const SizedBox(height: 10),
+              // =====================================================
+              // CONTENT
+              // =====================================================
+              recommendationsAsync.when(
+                data: (data) => _buildMealContent(data),
+                loading: () => _buildLoadingShimmer(themeMode),
+                error: (err, _) => Center(child: Text("Error fetching recommendations: $err")),
+              ),
+            ],
           ),
         ),
       ],
@@ -158,7 +145,7 @@ class _MealRecommendationSectionState
             boxShadow: isSelected
                 ? [
                     BoxShadow(
-                      color: AppColors.primaryOrange.withValues(alpha: 0.25),
+                      color: AppColors.primaryOrange.withOpacity( 0.25),
                       blurRadius: 8,
                       offset: const Offset(0, 3),
                     ),
@@ -197,56 +184,51 @@ class _MealRecommendationSectionState
   // CONTENT SWITCH
   // =====================================================
 
-  Widget _buildMealContent() {
-    switch (selectedTab) {
-      case "breakfast":
-        return const RecommendedMealItem(
-          imagePath: "assets/images/breakfast.jpg",
-          isVeg: true,
-          title: "Oats Protein Bowl",
-          rating: 4.3,
-          kcal: 320,
-          protein: 18,
-          description: "Healthy morning oats bowl with fruits and nuts.",
-          ingredientsToBuy: ["Oats", "Milk", "Banana"],
-        );
+  Widget _buildLoadingShimmer(ThemeMode themeMode) {
+    return Shimmer.fromColors(
+      baseColor: AppColors.getCardBg(themeMode),
+      highlightColor: AppColors.getDivider(themeMode),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(height: 20, width: 150, color: Colors.white),
+          const SizedBox(height: 8),
+          Container(height: 10, width: double.infinity, color: Colors.white),
+          const SizedBox(height: 4),
+          Container(height: 10, width: 200, color: Colors.white),
+          const SizedBox(height: 16),
+          Container(height: 120, width: double.infinity, decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12))),
+        ],
+      ),
+    );
+  }
 
-      case "lunch":
-        return const RecommendedMealItem(
-          imagePath: "assets/images/lunch.jpg",
-          isVeg: false,
-          title: "Chicken Rice Bowl",
-          rating: 4.6,
-          kcal: 540,
-          protein: 35,
-          description: "High protein lunch for sustained energy levels.",
-          ingredientsToBuy: ["Chicken", "Rice", "Spices"],
-        );
-
-      case "snacks":
-        return const RecommendedMealItem(
-          imagePath: "assets/images/snacks.jpg",
-          isVeg: true,
-          title: "Fruit Nut Mix",
-          rating: 4.1,
-          kcal: 210,
-          protein: 8,
-          description: "Healthy evening snack with mixed dry fruits.",
-          ingredientsToBuy: ["Almonds", "Cashews", "Dates"],
-        );
-
-      default:
-        return const RecommendedMealItem(
-          imagePath: "assets/images/dinner.jpg",
-          isVeg: true,
-          title: "Whole Wheat Garlic-Parsley Pasta With Sautéed Onions",
-          rating: 4.8,
-          kcal: 600,
-          protein: 45,
-          description:
-              "Avoids today's tomato/chili ingredients for meal variance. Whole wheat pasta and onions provide healthy carbs, fiber and micronutrients.",
-          ingredientsToBuy: ["Garlic", "Parsley", "Fresh Herbs"],
-        );
+  Widget _buildMealContent(DailyRecommendations? data) {
+    if (data == null) {
+      return const Center(child: Text("No recommendations available for this kitchen."));
     }
+    
+    MealRecommendation? currentRec;
+    switch (selectedTab) {
+      case "breakfast": currentRec = data.breakfast; break;
+      case "lunch": currentRec = data.lunch; break;
+      case "snacks": currentRec = data.snack; break;
+      default: currentRec = data.dinner;
+    }
+
+    if (currentRec == null) {
+      return const Center(child: Text("No recommendation available for this meal time yet."));
+    }
+
+    return RecommendedMealItem(
+      imagePath: currentRec.imageUrl ?? '', 
+      isVeg: true, // Assuming true for now, can be added to backend later
+      title: currentRec.recipeName,
+      rating: 4.8,
+      kcal: currentRec.calories,
+      protein: 0, // Placeholder
+      description: currentRec.description,
+      ingredientsToBuy: currentRec.missingIngredients,
+    );
   }
 }

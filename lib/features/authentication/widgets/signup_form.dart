@@ -1,11 +1,7 @@
 import 'package:chef_ai_mobile/core/theme/app_colors.dart';
-import 'package:chef_ai_mobile/shared/widgets/buttons/primary_button.dart';
-import 'package:chef_ai_mobile/shared/widgets/buttons/secondary_button.dart';
-import 'package:chef_ai_mobile/shared/widgets/enums/button_icon_position.dart';
 import 'package:chef_ai_mobile/shared/widgets/inputs/email_field.dart';
 import 'package:chef_ai_mobile/shared/widgets/inputs/password_field.dart';
 import 'package:chef_ai_mobile/shared/widgets/inputs/text_field.dart';
-import 'package:chef_ai_mobile/shared/widgets/separators/text_inline_divider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -44,14 +40,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 28),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 24,
+              vertical: 28,
+            ),
             child: Form(
               key: _formKey,
               child: Column(
                 children: [
-                  // SvgPicture.asset("assets/images/chefai_logo.svg", height: 90),
+                  SvgPicture.asset(
+                    "assets/images/chefai_logo.svg",
+                    height: 90,
+                  ),
 
-                
                   const SizedBox(height: 40),
 
                   AppTextField(
@@ -70,7 +71,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                   const SizedBox(height: 20),
 
-                  AppEmailField(controller: _emailController),
+                  AppEmailField(
+                    controller: _emailController,
+                  ),
 
                   const SizedBox(height: 20),
 
@@ -96,20 +99,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       Expanded(
                         child: RichText(
                           text: const TextSpan(
-                            style: TextStyle(color: Colors.grey, fontSize: 13),
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 13,
+                            ),
                             children: [
                               TextSpan(text: "I agree to ChefAI's "),
 
                               TextSpan(
                                 text: "Terms of Service",
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
 
                               TextSpan(text: " & "),
 
                               TextSpan(
                                 text: "Privacy Policy",
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ],
                           ),
@@ -120,32 +130,72 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                   const SizedBox(height: 28),
 
-                  PrimaryButton(
-                    label: "CREATE ACCOUNT",
-                    // icon: Icon(Icons.add),
-                    iconPosition: ButtonIconPosition.left,
-                    onPressed: _createAccount,
+                  SizedBox(
+                    width: double.infinity,
+                    height: 54,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primaryOrange,
+                        foregroundColor: Colors.white,
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(18),
+                        ),
+                      ),
+                      onPressed: _createAccount,
+                      child: const Text(
+                        "CREATE ACCOUNT",
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: .4,
+                        ),
+                      ),
+                    ),
                   ),
 
                   const SizedBox(height: 18),
-                  const TextInlineDivider(text: "OR SYNC USING"),
 
-                  const SizedBox(height: 28),
-                  SecondaryButton(
-                    label: "SIGN UP WITH GOOGLE",
-                    icon: Image.asset(
-                      "assets/images/google_logo.png",
-                      height: 20,
+                  SizedBox(
+                    width: double.infinity,
+                    height: 54,
+                    child: OutlinedButton.icon(
+                      style: OutlinedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        side: BorderSide(
+                          color: Colors.grey.shade300,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(18),
+                        ),
+                      ),
+                      onPressed: () {
+                        // Google Sign In
+                      },
+                      icon: Image.asset(
+                        "assets/icons/google.png",
+                        height: 20,
+                      ),
+                      label: const Text(
+                        "SIGN UP WITH GOOGLE",
+                        style: TextStyle(
+                          color: Colors.black87,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
                     ),
-                    iconPosition: ButtonIconPosition.left,
-                    onPressed: _createAccount,
                   ),
 
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 28),
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text("Already have an account? "),
+                      const Text(
+                        "Already have an account? ",
+                      ),
                       TextButton(
                         onPressed: () {
                           // Navigate to Login

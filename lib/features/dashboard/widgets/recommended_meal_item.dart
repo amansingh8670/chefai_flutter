@@ -39,7 +39,7 @@ class RecommendedMealItem extends ConsumerWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(18),
         border: Border.all(
-          color: AppColors.primaryOrange.withValues(alpha: 0.25),
+          color: AppColors.primaryOrange.withOpacity( 0.25),
           width: 0.6,
         ),
         gradient: LinearGradient(
@@ -52,10 +52,12 @@ class RecommendedMealItem extends ConsumerWidget {
         ),
       ),
 
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
+      child: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
           // =====================================================
           // TOP SECTION
           // =====================================================
@@ -84,7 +86,7 @@ class RecommendedMealItem extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(12),
 
                   child: Image.network(
-                    "https://placehold.co/120x120/png?text=Meal",
+                    imagePath.isNotEmpty ? imagePath : "https://placehold.co/120x120/png?text=Meal",
                     fit: BoxFit.cover,
 
                     errorBuilder:
@@ -352,160 +354,134 @@ class RecommendedMealItem extends ConsumerWidget {
             ),
           ),
 
-          const SizedBox(height: 10),
+          if (ingredientsToBuy.isNotEmpty) ...[
+            const SizedBox(height: 10),
 
-          // =====================================================
-          // BUY SECTION
-          // =====================================================
+            // =====================================================
+            // BUY SECTION
+            // =====================================================
 
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(10),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(10),
 
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
 
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  AppColors.getAccentTeal(themeMode)
-                      .withValues(alpha: 0.10),
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    AppColors.getAccentTeal(themeMode)
+                        .withOpacity( 0.10),
 
-                  AppColors.getAccentTeal(themeMode)
-                      .withValues(alpha: 0.04),
-                ],
-              ),
-
-              border: Border.all(
-                color: AppColors.getAccentTeal(
-                  themeMode,
-                ).withValues(alpha: 0.16),
-              ),
-            ),
-
-            child: Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Icon(
-                      Icons.add_circle_outline,
-                      size: 12,
-                      color:
-                          AppColors.getAccentTeal(
-                        themeMode,
-                      ),
-                    ),
-
-                    const SizedBox(width: 5),
-
-                    Expanded(
-                      child: Text(
-                        "YOU NEED TO BUY:",
-                        overflow:
-                            TextOverflow.ellipsis,
-
-                        style: TextStyle(
-                          fontSize: 8,
-                          fontWeight:
-                              FontWeight.w800,
-                          letterSpacing: 0.2,
-                          color:
-                              AppColors.getAccentTeal(
-                            themeMode,
-                          ),
-                        ),
-                      ),
-                    ),
+                    AppColors.getAccentTeal(themeMode)
+                        .withOpacity( 0.04),
                   ],
                 ),
 
-                const SizedBox(height: 8),
+                border: Border.all(
+                  color: AppColors.getAccentTeal(
+                    themeMode,
+                  ).withOpacity( 0.16),
+                ),
+              ),
 
-                Wrap(
-                  spacing: 6,
-                  runSpacing: 6,
-
-                  children: ingredientsToBuy.map(
-                    (ingredient) {
-                      return ConstrainedBox(
-                        constraints:
-                            const BoxConstraints(
-                          maxWidth: 95,
+              child: Column(
+                crossAxisAlignment:
+                    CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.add_circle_outline,
+                        size: 12,
+                        color:
+                            AppColors.getAccentTeal(
+                          themeMode,
                         ),
+                      ),
 
-                        child: Container(
-                          padding:
-                              const EdgeInsets.symmetric(
-                            horizontal: 8,
-                            vertical: 5,
-                          ),
+                      const SizedBox(width: 5),
 
-                          decoration: BoxDecoration(
+                      Expanded(
+                        child: Text(
+                          "YOU NEED TO BUY:",
+                          overflow:
+                              TextOverflow.ellipsis,
+
+                          style: TextStyle(
+                            fontSize: 8,
+                            fontWeight:
+                                FontWeight.w800,
+                            letterSpacing: 0.2,
                             color:
-                                AppColors.getSurface(
+                                AppColors.getAccentTeal(
                               themeMode,
                             ),
-
-                            borderRadius:
-                                BorderRadius.circular(
-                              999,
-                            ),
-
-                            border: Border.all(
-                              color:
-                                  AppColors.getDivider(
-                                themeMode,
-                              ),
-                              width: 0.5,
-                            ),
-                          ),
-
-                          child: Row(
-                            mainAxisSize:
-                                MainAxisSize.min,
-                            children: [
-                              Flexible(
-                                child: Text(
-                                  ingredient,
-                                  overflow:
-                                      TextOverflow
-                                          .ellipsis,
-
-                                  style: TextStyle(
-                                    fontSize: 7,
-                                    fontWeight:
-                                        FontWeight
-                                            .w700,
-                                    color: AppColors
-                                        .getTextPrimary(
-                                      themeMode,
-                                    ),
-                                  ),
-                                ),
-                              ),
-
-                              const SizedBox(width: 3),
-
-                              Icon(
-                                Icons.add,
-                                size: 10,
-                                color: AppColors
-                                    .primaryOrange,
-                              ),
-                            ],
                           ),
                         ),
-                      );
-                    },
-                  ).toList(),
-                ),
-              ],
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 8),
+
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    physics: const BouncingScrollPhysics(),
+                    child: Row(
+                      children: ingredientsToBuy.map(
+                        (ingredient) {
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 6),
+                            child: ConstrainedBox(
+                              constraints: const BoxConstraints(maxWidth: 95),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                                decoration: BoxDecoration(
+                                  color: AppColors.getSurface(themeMode),
+                                  borderRadius: BorderRadius.circular(999),
+                                  border: Border.all(
+                                    color: AppColors.getDivider(themeMode),
+                                    width: 0.5,
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Flexible(
+                                      child: Text(
+                                        ingredient,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          fontSize: 7,
+                                          fontWeight: FontWeight.w700,
+                                          color: AppColors.getTextPrimary(themeMode),
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 3),
+                                    Icon(
+                                      Icons.add,
+                                      size: 10,
+                                      color: AppColors.primaryOrange,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ).toList(),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
+          ],
         ],
+        ),
       ),
     );
   }

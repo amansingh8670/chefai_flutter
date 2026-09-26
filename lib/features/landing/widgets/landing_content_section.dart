@@ -1,5 +1,7 @@
 import 'package:chef_ai_mobile/core/theme/app_colors.dart';
 import 'package:chef_ai_mobile/features/landing/widgets/landing_tab_content.dart';
+import 'package:chef_ai_mobile/features/landing/pages/onboarding_page.dart';
+import 'package:chef_ai_mobile/features/authentication/pages/login_page.dart';
 import 'package:flutter/material.dart';
 
 class LandingContentSection extends StatefulWidget {
@@ -71,24 +73,69 @@ class _LandingContentSectionState extends State<LandingContentSection> {
                     child: Center(
                       child: LandingTabContent(selectedTab: selectedTab),
                     ),
-                    // child: Text(
-
-                    //   selectedTab == 'keyFeatures'
-                    //       ? 'Key Features content section'
-                    //       : selectedTab == 'getStarted'
-                    //           ? 'Get Started content section'
-                    //           : 'How This Works content section',
-
-                    //   style: Theme.of(context)
-                    //       .textTheme
-                    //       .bodyLarge
-                    //       ?.copyWith(
-                    //         fontSize: 18,
-                    //         height: 1.5,
-                    //       ),
-                    // ),
                   ),
                 ),
+              ),
+
+              const SizedBox(height: 16),
+              
+              // ACTION BUTTONS
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const OnboardingPage()),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primaryOrange,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(999),
+                    ),
+                  ),
+                  child: const Text(
+                    "Get Started",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w800,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+              
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Don't have an account? ",
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: Color(0xFF6B7280),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const LoginScreen()),
+                      );
+                    },
+                    child: const Text(
+                      "Log In",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.primaryOrange,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

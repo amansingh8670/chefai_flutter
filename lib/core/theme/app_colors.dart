@@ -170,8 +170,6 @@ class AppColors {
   // =========================================================
 
   static Color getShadow(ThemeMode mode) {
-    return Colors.black.withValues(
-      alpha: mode == ThemeMode.dark ? 0.30 : 0.08,
-    );
+    return Colors.black.withOpacity(mode == ThemeMode.dark ? 0.30 : 0.08);
   }
 }

@@ -13,145 +13,154 @@ class PantryTrackerSection extends ConsumerWidget {
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        final iconSize = constraints.maxHeight * 0.42;
-
         return Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             // =====================================================
-            // LEFT ICON
+            // LEFT CONTENT (TEXT)
             // =====================================================
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  RichText(
+                    text: TextSpan(
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w800,
+                        height: 1.2,
+                      ),
+                      children: [
+                        TextSpan(
+                          text: "PANTRY ",
+                          style: TextStyle(
+                            color: AppColors.getAccentTeal(themeMode),
+                          ),
+                        ),
+                        TextSpan(
+                          text: "Tracker",
+                          style: TextStyle(
+                            color: AppColors.getTextPrimary(themeMode),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  RichText(
+                    text: TextSpan(
+                      style: const TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w700,
+                        height: 1.2,
+                      ),
+                      children: [
+                        TextSpan(
+                          text: "Capacity Good ",
+                          style: TextStyle(
+                            color: AppColors.getTextPrimary(themeMode),
+                          ),
+                        ),
+                        TextSpan(
+                          text: "• ",
+                          style: TextStyle(
+                            color: AppColors.getPrimaryOrange(themeMode),
+                          ),
+                        ),
+                        TextSpan(
+                          text: "Eggs & Milk low",
+                          style: TextStyle(
+                            color: AppColors.getPrimaryOrange(themeMode),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    "16 of 20 ingredients stocked in your kitchen.",
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 8.5,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.getTextSecondary(themeMode),
+                    ),
+                  ),
+                ],
+              ),
+            ),
 
+            const SizedBox(width: 8),
+
+            // =====================================================
+            // MIDDLE CIRCLE INDICATOR
+            // =====================================================
             Container(
-              width: constraints.maxWidth * 0.22,
-              height: double.infinity,
-
-              margin: const EdgeInsets.only(right: 10),
-
+              width: 38,
+              height: 38,
               decoration: BoxDecoration(
-                color: AppColors.getAccentTeal(
-                  themeMode,
-                ).withValues(alpha: 0.12),
-
-                borderRadius: BorderRadius.circular(14),
-
-                border: Border.all(
-                  color: AppColors.getAccentTeal(
-                    themeMode,
-                  ).withValues(alpha: 0.15),
+                shape: BoxShape.circle,
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    AppColors.getAccentTeal(themeMode),
+                    AppColors.getPrimaryOrange(themeMode),
+                  ],
                 ),
               ),
-
-              child: Center(
-                child: Icon(
-                  Icons.kitchen_rounded,
-                  size: iconSize.clamp(18, 28),
-                  color: AppColors.getAccentTeal(themeMode),
+              child: Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: AppColors.getCardBg(themeMode),
+                  ),
+                  child: Center(
+                    child: Text(
+                      "80%",
+                      style: TextStyle(
+                        fontSize: 9,
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.getAccentTeal(themeMode),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
 
+            const SizedBox(width: 12),
+
             // =====================================================
-            // RIGHT CONTENT
+            // RIGHT ICON (STACKED IMAGES)
             // =====================================================
-
-            Expanded(
-              child: FittedBox(
-                fit: BoxFit.scaleDown,
-                alignment: Alignment.centerRight,
-
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-
-                  children: [
-                    RichText(
-                      text: TextSpan(
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w800,
-                          height: 1,
-                        ),
-
-                        children: [
-                          TextSpan(
-                            text: "Pantry ",
-                            style: TextStyle(
-                              color: AppColors.getAccentTeal(
-                                themeMode,
-                              ),
-                            ),
-                          ),
-
-                          TextSpan(
-                            text: "Tracker",
-                            style: TextStyle(
-                              color: AppColors.getTextPrimary(
-                                themeMode,
-                              ),
-                            ),
-                          ),
-                        ],
+            SizedBox(
+              width: 65,
+              height: 65,
+              child: Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  // Outline image
+                  Image.asset(
+                    'assets/images/pantry_bag_outline.png',
+                    color: AppColors.getTextSecondary(themeMode).withOpacity(0.5),
+                    fit: BoxFit.contain,
+                  ),
+                  // Colored image filled from bottom
+                  ClipRect(
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      heightFactor: 16 / 20, // 80% filled
+                      child: Image.asset(
+                        'assets/images/pantry_bag_colored.png',
+                        fit: BoxFit.contain,
                       ),
                     ),
-
-                    const SizedBox(height: 2),
-
-                    RichText(
-                      text: TextSpan(
-                        style: const TextStyle(
-                          fontSize: 8,
-                          fontWeight: FontWeight.w600,
-                          height: 1,
-                        ),
-
-                        children: [
-                          TextSpan(
-                            text: "Capacity good • ",
-                            style: TextStyle(
-                              color: AppColors.getTextPrimary(
-                                themeMode,
-                              ),
-                            ),
-                          ),
-
-                          TextSpan(
-                            text: "Eggs & Milk Low",
-                            style: TextStyle(
-                              color: AppColors.getPrimaryOrange(
-                                themeMode,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    const SizedBox(height: 2),
-
-                    SizedBox(
-                      width: constraints.maxWidth * 0.52,
-                      child: Text(
-                        "16 out of 20 ingredients stocked",
-
-                        maxLines: 1,
-
-                        overflow: TextOverflow.ellipsis,
-
-                        textAlign: TextAlign.end,
-
-                        style: TextStyle(
-                          fontSize: 7,
-                          height: 1,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.getTextSecondary(
-                            themeMode,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ],

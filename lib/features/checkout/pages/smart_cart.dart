@@ -61,6 +61,8 @@
 
 import 'package:chef_ai_mobile/shared/mock_data/inventory.dart';
 import 'package:flutter/material.dart';
+import 'package:chef_ai_mobile/shared/widgets/app_bottom_nav.dart';
+import 'package:chef_ai_mobile/features/meal_tracker/pages/log_meal.dart';
 // import 'inventory.dart';
 
 class SmartCartScreen extends StatelessWidget {
@@ -109,21 +111,16 @@ class SmartCartScreen extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart),
-            label: 'Cart',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: 'Favorites',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
+      bottomNavigationBar: AppBottomNav(
+        selectedIndex: 4,
+        onTap: (index) {
+          if (index == 0) {
+            Navigator.popUntil(context, (route) => route.isFirst);
+          } else if (index == 1) {
+            // Scanner
+            // Navigator.pushReplacement(...)
+          }
+        },
       ),
     );
   }

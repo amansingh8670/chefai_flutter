@@ -56,11 +56,11 @@ class AvailableItemCard extends StatelessWidget {
           ],
         ),
         border: Border.all(
-          color: Colors.white.withValues(alpha: .05),
+          color: Colors.white.withOpacity( .05),
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: .18),
+            color: Colors.black.withOpacity( .18),
             blurRadius: 10,
             offset: const Offset(0, 5),
           ),
@@ -120,7 +120,7 @@ class AvailableItemCard extends StatelessWidget {
                         vertical: 4,
                       ),
                       decoration: BoxDecoration(
-                        color: statusColor.withValues(alpha: .92),
+                        color: statusColor.withOpacity( .92),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Row(
@@ -167,7 +167,7 @@ class AvailableItemCard extends StatelessWidget {
                     vertical: 4,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.orange.withValues(alpha: .12),
+                    color: Colors.orange.withOpacity( .12),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Row(

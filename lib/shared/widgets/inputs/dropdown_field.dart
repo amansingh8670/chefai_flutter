@@ -96,7 +96,7 @@ class _AppDropdownFieldState<T> extends ConsumerState<AppDropdownField<T>> {
             boxShadow: isFocused
                 ? [
                     BoxShadow(
-                      color: AppColors.primaryOrange.withValues(alpha: .12),
+                      color: AppColors.primaryOrange.withOpacity( .12),
                       blurRadius: 12,
                       spreadRadius: 1,
                     ),

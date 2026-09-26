@@ -3,10 +3,12 @@ import 'package:chef_ai_mobile/features/inventory/widgets/available_item.dart';
 import 'package:chef_ai_mobile/features/inventory/widgets/available_item_category.dart';
 import 'package:chef_ai_mobile/features/inventory/widgets/inventory_stats.dart';
 import 'package:chef_ai_mobile/providers/theme_provider.dart';
+import 'package:chef_ai_mobile/providers/inventory_provider.dart';
 import 'package:chef_ai_mobile/shared/mock_data/inventory.dart';
 import 'package:chef_ai_mobile/shared/widgets/inputs/text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'pantry_scanner.dart';
 
 class KitchenInventoryScreen extends ConsumerStatefulWidget {
   const KitchenInventoryScreen({super.key});
@@ -34,6 +36,7 @@ class _KitchenInventoryScreenState
   @override
   Widget build(BuildContext context) {
     final themeMode = ref.watch(themeProvider);
+    final inventoryAsync = ref.watch(inventoryProvider);
 
     return Scaffold(
       backgroundColor: AppColors.getBackground(themeMode),
@@ -42,7 +45,7 @@ class _KitchenInventoryScreenState
           padding: const EdgeInsets.symmetric(horizontal: 12),
           child: Column(
             children: [
-              _header(),
+              _header(themeMode),
               const SizedBox(height: 10),
               InventoryStats(
                 stats: const [
@@ -66,7 +69,7 @@ class _KitchenInventoryScreenState
               const SizedBox(height: 10),
               _search(),
               const SizedBox(height: 8),
-              _filters(),
+              _filters(themeMode),
               const SizedBox(height: 10),
               Expanded(
                 child: Row(
@@ -87,30 +90,45 @@ class _KitchenInventoryScreenState
                     ),
                     const SizedBox(width: 10),
                     Expanded(
-                      child: GridView.builder(
-                        controller: _productController,
-                        physics: const BouncingScrollPhysics(
-                          parent: AlwaysScrollableScrollPhysics(),
-                        ),
-                        padding: const EdgeInsets.only(bottom: 24),
-                        itemCount: InventoryMockData.items.length,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              childAspectRatio: 0.68,
-                              crossAxisSpacing: 10,
-                              mainAxisSpacing: 10,
+                      child: inventoryAsync.when(
+                        data: (items) {
+                          if (items.isEmpty) {
+                            return const Center(
+                              child: Text('No items in pantry.'),
+                            );
+                          }
+                          return GridView.builder(
+                            controller: _productController,
+                            physics: const BouncingScrollPhysics(
+                              parent: AlwaysScrollableScrollPhysics(),
                             ),
-                        itemBuilder: (context, index) {
-                          final item = InventoryMockData.items[index];
+                            padding: const EdgeInsets.only(bottom: 24),
+                            itemCount: items.length,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  childAspectRatio: 0.68,
+                                  crossAxisSpacing: 10,
+                                  mainAxisSpacing: 10,
+                                ),
+                            itemBuilder: (context, index) {
+                              final item = items[index];
 
-                          return AvailableItemCard(
-                            itemName: item.name,
-                            imageUrl: item.imageUrl,
-                            expirationStatus: item.expirationStatus,
-                            quantity: item.quantity,
+                              return AvailableItemCard(
+                                itemName: item.name,
+                                imageUrl: item.imageUrl ?? 'https://via.placeholder.com/150',
+                                expirationStatus: item.expirationStatus,
+                                quantity: item.quantity,
+                              );
+                            },
                           );
                         },
+                        loading: () => const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        error: (error, _) => Center(
+                          child: Text('Error: $error'),
+                        ),
                       ),
                     ),
                   ],
@@ -123,54 +141,83 @@ class _KitchenInventoryScreenState
     );
   }
 
-  Widget _header() {
-    return Row(
-      children: [
-        CircleAvatar(
-          radius: 16,
-          backgroundColor: Colors.white10,
-          child: const Icon(Icons.arrow_back_ios_new, size: 14),
-        ),
-        const SizedBox(width: 10),
-        const Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Kitchen Inventory",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
+  Widget _header(ThemeMode themeMode) {
+    final surfaceColor = AppColors.getSurface(themeMode);
+    final textColor = AppColors.getTextPrimary(themeMode);
+    final textSecColor = AppColors.getTextSecondary(themeMode);
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Row(
+        children: [
+          GestureDetector(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: surfaceColor,
+                shape: BoxShape.circle,
               ),
-              Text(
-                "Manage your stock, track expiry and organize your pantry",
-                style: TextStyle(fontSize: 8, color: Colors.grey),
-              ),
-            ],
-          ),
-        ),
-        FilledButton(
-          style: FilledButton.styleFrom(
-            backgroundColor: Colors.orange,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
+              child: Icon(Icons.arrow_back_ios_new, size: 16, color: textColor),
             ),
           ),
-          onPressed: () {},
-          child: const Text("+ Add Item", style: TextStyle(fontSize: 10)),
-        ),
-      ],
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Kitchen Inventory",
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800, color: textColor),
+                ),
+                Text(
+                  "Manage your stock, track expiry and organize your pantry",
+                  style: TextStyle(fontSize: 9, color: textSecColor, fontWeight: FontWeight.w600),
+                ),
+              ],
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const PantryScannerScreen()),
+              );
+            },
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              decoration: BoxDecoration(
+                color: AppColors.primaryOrange,
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.primaryOrange.withOpacity(0.4),
+                    blurRadius: 12,
+                    offset: const Offset(0, 4),
+                  )
+                ],
+              ),
+              child: const Row(
+                children: [
+                  Icon(Icons.add, size: 14, color: Colors.white),
+                  SizedBox(width: 4),
+                  Text('Add Item', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 12)),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
+
   Widget _search() {
-    return Container(
-      height: 36,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.grey),
-      ),
-      child: AppTextField(
-        label: "Search",
-        hint: "Search pantry...",
+    return AppTextField(
+      label: "Search",
+      hint: "Search pantry...",
         controller: _controller,
         textCapitalization: TextCapitalization.none,
         textInputAction: TextInputAction.search,
@@ -182,29 +229,39 @@ class _KitchenInventoryScreenState
         onChanged: (value) {
           // Optional live search
         },
-      ),
-    );
+      );
   }
 
-  Widget _filters() {
+  Widget _filters(ThemeMode themeMode) {
     return Row(
       children: [
-        _chip("All Items", true),
-        _chip("Expiring Soon", false),
-        _chip("Out of Stock", false),
+        _chip("All Items", true, themeMode),
+        _chip("Expiring Soon", false, themeMode),
+        _chip("Out of Stock", false, themeMode),
       ],
     );
   }
 
-  Widget _chip(String text, bool selected) {
+  Widget _chip(String text, bool selected, ThemeMode themeMode) {
     return Container(
       margin: const EdgeInsets.only(right: 6),
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
       decoration: BoxDecoration(
-        color: selected ? Colors.orange : Colors.white10,
+        color: selected ? Colors.transparent : AppColors.getSurface(themeMode),
         borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: selected ? AppColors.primaryOrange : AppColors.getDivider(themeMode),
+          width: selected ? 1.5 : 1,
+        ),
       ),
-      child: Text(text, style: const TextStyle(fontSize: 8)),
+      child: Text(
+        text, 
+        style: TextStyle(
+          fontSize: 10, 
+          fontWeight: FontWeight.w700,
+          color: selected ? AppColors.primaryOrange : AppColors.getTextSecondary(themeMode)
+        )
+      ),
     );
   }
 }
